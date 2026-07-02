@@ -1,4 +1,3 @@
 node_modules
 docs/.vitepress/dist
 docs/.vitepress/cache
-docs/public/web20260702/*.png
