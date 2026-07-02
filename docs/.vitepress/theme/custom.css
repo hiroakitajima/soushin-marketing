@@ -1,0 +1,41 @@
+/* サイドバーdivider */
+.sidebar-divider {
+  border: none;
+  border-top: 1px solid var(--vp-c-divider);
+  margin: 8px 0;
+}
+
+/* グループ間の罫線非表示（Vueスコープ付きスタイルを上書き） */
+.group + .group {
+  border-top: none !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* キャレットアイコン非表示 */
+.VPSidebarItem.level-0 .caret {
+  display: none !important;
+}
+
+/* メニュー間のスペース（padding-bottom）を詰める */
+.VPSidebarItem.level-0 {
+  padding-bottom: 2px !important;
+}
+.VPSidebarItem.collapsed.level-0 {
+  padding-bottom: 2px !important;
+}
+
+/* 全セクションのリストをデフォルトで非表示 */
+.VPSidebarItem.level-0 .items {
+  display: none !important;
+}
+
+/* アクティブなセクションのリストのみ表示 */
+.VPSidebarItem.level-0.has-active .items {
+  display: block !important;
+}
+
+/* items のインデント */
+.VPSidebarItem.level-0 .items {
+  padding-left: 12px !important;
+}

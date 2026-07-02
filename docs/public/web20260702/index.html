@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>創新ラボ マーケティング戦略 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=LINE+Seed+JP:wght@100;400;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ━━ マスタースケール ━━━━━━━━━━━━━━━━━━━━━
+     ここを変えると全体が伸縮する。
+     1cqw = キャンバス幅の1%（1900px基準 ≒ 19px）  */
+  --s: 2cqw;
+
+  /* ━━ タイポグラフィ ━━━━━━━━━━━━━━━━━━━━━ */
+  --t-2xs: calc(0.5  * var(--s));   /* ~9.5px  極小ラベル    */
+  --t-xs:  calc(0.55 * var(--s));   /* ~10.5px 眉・タグ      */
+  --t-sm:  calc(0.65 * var(--s));   /* ~12.5px 本文小        */
+  --t-md:  calc(0.7  * var(--s));   /* ~13px   本文          */
+  --t-lg:  calc(0.8  * var(--s));   /* ~15px   リード・名前  */
+  --t-xl:  calc(1.4  * var(--s));   /* ~26px   コールアウト  */
+  --t-2xl: calc(1.7  * var(--s));   /* ~32px   h1            */
+  --t-3xl: calc(2.3  * var(--s));   /* ~44px   カバータイトル */
+
+  /* ━━ スペーシング ━━━━━━━━━━━━━━━━━━━━━━━ */
+  --sp-1: calc(0.2  * var(--s));   /* ~4px  */
+  --sp-2: calc(0.4  * var(--s));   /* ~8px  */
+  --sp-3: calc(0.65 * var(--s));   /* ~12px */
+  --sp-4: calc(1    * var(--s));   /* ~19px 基準単位 */
+  --sp-5: calc(1.5  * var(--s));   /* ~28px */
+  --sp-6: calc(2.75 * var(--s));   /* ~52px スライド上パディング */
+  --sp-7: calc(3.8  * var(--s));   /* ~72px スライド横パディング */
+  --sp-8: calc(4.2  * var(--s));   /* ~80px スライド下パディング */
+
+  /* ━━ カラー ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --blue: #008CEF;
+  --blue-d: #008CEF;
+  --blue-900: color-mix(in srgb, #008CEF 65%, black);
+  --blue-700: color-mix(in srgb, #008CEF 85%, black);
+  --blue-light: color-mix(in srgb, #008CEF 12%, white);
+  --blue-lighter: color-mix(in srgb, #008CEF 7%, white);
+  --blue-lightest: color-mix(in srgb, #008CEF 4%, white);
+  --blue-dark: color-mix(in srgb, #008CEF 85%, black);
+  --text: #1a1a1a;
+  --text-s: #666;
+  --text-m: #999;
+  --border: #e5e5e3;
+  --bg: #f8f8f6;
+}
+
+body {
+  font-family: 'Brandon Grotesque', 'LINE Seed JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+  background: #efefed;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Container ─────────────────────── */
+.deck {
+  container-type: inline-size;
+  container-name: slide;
+  width: min(100vw, calc(100vh * 1.9));
+  aspect-ratio: 19 / 10;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  background: white;
+  display: none;
+  flex-direction: column;
+  padding: var(--sp-6);
+  overflow-y: auto;
+}
+.slide.active { display: flex; }
+
+/* ── Nav ──────────────────────────── */
+.nav {
+  position: fixed;
+  bottom: 1.5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5vw;
+  align-items: center;
+}
+.dot { width: 0.4vw; height: 0.4vw; border-radius: 50%; background: #bbb; cursor: pointer; transition: all .2s; }
+.dot.on { background: var(--blue); width: 1.2vw; border-radius: 0.2vw; }
+.counter { position: fixed; bottom: 1.2vh; right: 3vw; font-size: 0.7vw; color: #aaa; }
+
+/* ── Common ───────────────────────── */
+.eyebrow {
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: calc(0.5 * var(--s));
+}
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: calc(0.35 * var(--s)); height: calc(0.35 * var(--s));
+  background: var(--blue-d);
+  flex-shrink: 0;
+}
+
+h1 { font-size: var(--t-2xl); font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: var(--sp-1); }
+.sub { font-size: var(--t-md); color: var(--text-m); margin-bottom: var(--sp-5); }
+
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5); }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--sp-4); }
+
+.card { border: .5px solid var(--border); border-radius: var(--sp-1); padding: var(--sp-4) calc(1.15 * var(--s)); }
+.card-b { background: var(--blue-lighter); border-color: color-mix(in srgb, #008CEF 25%, white); }
+
+.ctitle { font-size: var(--t-md); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-3); padding: 0 var(--sp-3); border-left: calc(0.28 * var(--s)) solid var(--blue); letter-spacing: .02em; }
+.ctitle .sq, .ctitle .sq-outline { display: none; }
+.sq { display: inline-block; width: calc(0.38 * var(--s)); height: calc(0.38 * var(--s)); background: var(--blue-d); flex-shrink: 0; }
+
+.item { font-size: var(--t-sm); color: var(--text-s); line-height: 1.9; display: flex; gap: var(--sp-2); align-items: baseline; }
+.item::before { content: '—'; color: #ccc; font-size: calc(0.53 * var(--s)); flex-shrink: 0; }
+
+.tag { display: inline-block; font-size: var(--t-xs); font-weight: 500; padding: var(--sp-1) var(--sp-2); border-radius: calc(0.1 * var(--s)); }
+.t-red   { background: var(--blue-900); color: white; }
+.t-amber { background: var(--blue); color: white; }
+.t-blue  { background: var(--blue-light); color: var(--blue-dark); }
+.t-green { background: var(--blue-lighter); color: var(--blue-700); }
+.t-gray  { background: var(--bg); color: #555; }
+
+/* ── Slide 1 : Cover ─────────────── */
+#s1 { justify-content: center; }
+
+.cover-mosaic {
+  position: absolute;
+  right: var(--sp-7);
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(13.7 * var(--s));
+  height: calc(13.7 * var(--s));
+}
+
+.cover-sq {
+  position: absolute;
+  right: var(--sp-7); top: 50%; transform: translateY(-50%);
+  width: calc(13.7 * var(--s)); height: calc(13.7 * var(--s));
+  border: .5px solid var(--border);
+}
+.cover-sq::before {
+  content: '';
+  position: absolute;
+  width: calc(8.4 * var(--s)); height: calc(8.4 * var(--s));
+  background: var(--blue-lightest);
+  top: calc(1.6 * var(--s)); left: calc(1.6 * var(--s));
+}
+.cover-sq::after {
+  content: '';
+  position: absolute;
+  width: calc(4 * var(--s)); height: calc(4 * var(--s));
+  background: var(--blue-d);
+  opacity: .2;
+  top: calc(0.85 * var(--s)); right: calc(0.85 * var(--s));
+}
+.dots-bg {
+  position: absolute;
+  right: calc(3 * var(--s)); top: var(--sp-6);
+  width: calc(11.6 * var(--s)); height: calc(5.3 * var(--s));
+  background-image: radial-gradient(circle, #d4d4d4 calc(0.06 * var(--s)), transparent calc(0.06 * var(--s)));
+  background-size: calc(0.74 * var(--s)) calc(0.74 * var(--s));
+}
+
+.c-eyebrow { font-size: var(--t-xs); letter-spacing: .15em; color: var(--text-m); font-weight: 500; margin-bottom: var(--sp-4); }
+.c-title { font-size: var(--t-3xl); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: var(--sp-2); }
+.c-title em { color: var(--blue); font-style: normal; }
+.c-bar { width: calc(1.9 * var(--s)); height: max(2px, calc(0.12 * var(--s))); background: var(--blue-d); margin: var(--sp-4) 0; }
+.c-sub { font-size: var(--t-lg); color: var(--text-s); margin-bottom: calc(1.7 * var(--s)); line-height: 1.7; }
+.c-meta { display: flex; gap: var(--sp-5); }
+.c-meta-item { font-size: var(--t-sm); color: var(--text-m); }
+.c-meta-item b { display: block; font-size: var(--t-md); font-weight: 500; color: var(--text); margin-bottom: var(--sp-1); }
+
+/* ── Slide 2 : アプローチ ────────── */
+.af-wrap { display: flex; flex-direction: column; gap: calc(0.22 * var(--s)); }
+.af-row { position: relative; display: flex; justify-content: center; align-items: center; }
+.af-stage { padding: calc(0.48 * var(--s)) var(--sp-3); font-size: var(--t-sm); font-weight: 500; text-align: center; }
+.af-dim { background: var(--bg); color: var(--text-m); }
+.af-hot { background: var(--blue-lighter); color: var(--blue-dark); border: .5px solid color-mix(in srgb,#008CEF 20%,white); }
+.af-top { background: var(--blue); color: white; font-weight: 700; }
+.af-label { position: absolute; right: 0; font-size: var(--t-xs); color: var(--blue); font-weight: 600; white-space: nowrap; letter-spacing: .03em; }
+
+/* ── Slide 2 : 現状診断 ───────────── */
+.bottleneck { background: var(--blue-lightest); border: .5px solid color-mix(in srgb, #008CEF 20%, white); border-radius: var(--sp-1); padding: var(--sp-4) calc(1.15 * var(--s)); margin-bottom: calc(0.55 * var(--s)); }
+.bn-num { font-size: var(--t-xl); font-weight: 700; color: var(--blue-900); margin-bottom: var(--sp-1); }
+.bn-desc { font-size: var(--t-sm); color: var(--text-s); line-height: 1.7; }
+
+/* ── Slide 3 : 全体戦略 ───────────── */
+.f-label { display: flex; align-items: center; gap: calc(0.55 * var(--s)); margin-bottom: var(--sp-4); }
+.f-badge { font-size: var(--t-xs); font-weight: 500; padding: calc(0.15 * var(--s)) calc(0.55 * var(--s)); letter-spacing: .05em; color: white; background: var(--blue); }
+.f-name { font-size: var(--t-md); font-weight: 700; color: var(--text); }
+
+.funnel { border: .5px solid var(--border); padding: calc(0.75 * var(--s)) var(--sp-4); display: flex; align-items: center; gap: calc(0.75 * var(--s)); margin-bottom: var(--sp-1); }
+.f-num { font-size: calc(1.5 * var(--s)); font-weight: 700; color: var(--blue-d); min-width: calc(1.5 * var(--s)); opacity: .35; line-height: 1; }
+.f-title { font-size: var(--t-md); font-weight: 500; color: var(--text); margin-bottom: calc(0.15 * var(--s)); }
+.f-desc { font-size: calc(0.6 * var(--s)); color: var(--text-s); line-height: 1.5; }
+.f-arrow { text-align: center; color: var(--blue-d); font-size: var(--t-md); margin: calc(0.15 * var(--s)) 0; }
+
+/* ── Slide 4 : ロードマップ ──────── */
+.phases { display: flex; border: .5px solid var(--border); border-radius: var(--sp-1); overflow: hidden; }
+.phase { flex: 1; border-left: .5px solid var(--border); padding: calc(0.85 * var(--s)); display: flex; flex-direction: column; gap: var(--sp-1); }
+.phase:first-child { border-left: none; }
+.ph-time { font-size: var(--t-2xs); color: var(--text-m); font-weight: 500; letter-spacing: .05em; margin-bottom: calc(0.1 * var(--s)); }
+.ph-name { font-size: var(--t-sm); font-weight: 500; color: var(--text); line-height: 1.4; margin-bottom: var(--sp-1); }
+.ph-task { font-size: calc(0.58 * var(--s)); color: var(--text-s); line-height: 1.55; display: flex; gap: calc(0.25 * var(--s)); align-items: baseline; }
+.ph-task::before { content: ''; display: inline-block; width: calc(0.22 * var(--s)); height: calc(0.22 * var(--s)); background: #ddd; flex-shrink: 0; margin-top: calc(0.22 * var(--s)); }
+.ph-task.on::before { background: var(--blue-d); }
+.warn { margin-top: var(--sp-3); padding: calc(0.55 * var(--s)) calc(0.75 * var(--s)); background: var(--bg); border: .5px solid var(--border); border-radius: var(--sp-1); font-size: calc(0.6 * var(--s)); color: var(--text-m); display: flex; align-items: center; gap: var(--sp-2); }
+
+/* ── Slide 5 : 直近アクション ──────── */
+.action { border: .5px solid var(--border); border-radius: var(--sp-1); padding: calc(0.75 * var(--s)) var(--sp-4); display: flex; gap: var(--sp-3); align-items: flex-start; margin-bottom: var(--sp-2); }
+.a-num { font-size: calc(1.25 * var(--s)); font-weight: 700; min-width: calc(1.25 * var(--s)); line-height: 1; opacity: .25; }
+.a-title { font-size: var(--t-md); font-weight: 500; color: var(--text); margin-bottom: calc(0.15 * var(--s)); }
+.a-desc { font-size: calc(0.6 * var(--s)); color: var(--text-s); line-height: 1.6; }
+
+/* ── 共通インライン置き換え ──────── */
+.note-box { padding: calc(0.55 * var(--s)) calc(0.75 * var(--s)); background: var(--bg); border: .5px solid var(--border); border-radius: var(--sp-1); font-size: calc(0.6 * var(--s)); color: var(--text-m); line-height: 1.6; }
+.ctitle-sm { font-size: var(--t-sm); font-weight: 500; margin-bottom: var(--sp-2); }
+.tag-mb { align-self: start; margin-bottom: var(--sp-1); }
+.sq-outline { width: calc(0.38 * var(--s)); height: calc(0.38 * var(--s)); border: 1px solid var(--blue-900); flex-shrink: 0; }
+
+/* ── Slide 6 : 縦書きレイアウト ─── */
+#s6 { flex-direction: row; gap: var(--sp-5); overflow: hidden; padding-bottom: 0; }
+
+.s6-left {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+  border-right: .5px solid var(--border);
+  padding-right: var(--sp-4);
+}
+.s6-label {
+  writing-mode: vertical-rl;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--blue);
+}
+.s6-label::before {
+  content: '';
+  display: block;
+  width: calc(0.35 * var(--s));
+  height: calc(0.35 * var(--s));
+  background: var(--blue-d);
+  flex-shrink: 0;
+  margin-bottom: var(--sp-2);
+}
+.s6-title-v { writing-mode: vertical-rl; font-size: var(--t-2xl); font-weight: 700; color: var(--text); letter-spacing: .05em; }
+.s6-desc-v { writing-mode: vertical-rl; text-orientation: upright; font-size: var(--t-sm); color: var(--text-m); letter-spacing: .03em; }
+
+.s6-right { flex: 1; min-width: 0; overflow-y: auto; padding-bottom: var(--sp-6); }
+#s6 { padding-bottom: 0; }
+#s6 .mx-wrap { border-bottom: none; }
+
+/* ── Slide 6 : メンバー ──────────── */
+.member-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--sp-4); margin-bottom: var(--sp-4); }
+.member-card { border: .5px solid var(--border); border-radius: var(--sp-1); overflow: hidden; }
+.member-photo { height: calc(10.5 * var(--s)); background: var(--blue-lightest); overflow: hidden; }
+.member-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+.member-body { padding: calc(0.75 * var(--s)) calc(0.85 * var(--s)); }
+.member-role { font-size: var(--t-xs); color: var(--blue); font-weight: 500; letter-spacing: .08em; margin-bottom: var(--sp-1); }
+.member-name { font-size: var(--t-lg); font-weight: 700; color: var(--text); margin-bottom: calc(0.1 * var(--s)); }
+.member-dept { font-size: calc(0.6 * var(--s)); color: var(--text-m); margin-bottom: calc(0.6 * var(--s)); }
+
+/* ── Slide 6 : 隠し社長 ──────────── */
+.shacho-trigger {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(3 * var(--s));
+  height: calc(3 * var(--s));
+  z-index: 10;
+  cursor: default;
+}
+.shacho-float {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(11.88 * var(--s));
+  opacity: 0;
+  transform: translateX(calc(-2 * var(--s)));
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+  border-radius: var(--sp-1);
+  filter: drop-shadow(0 calc(0.5 * var(--s)) calc(2 * var(--s)) rgba(0,0,0,0.28));
+  object-fit: cover;
+}
+.shacho-trigger:hover .shacho-float {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Matrix ──────────────────────── */
+.mx-wrap { border: .5px solid var(--border); border-radius: var(--sp-1); overflow: hidden; }
+.mx-row { display: grid; grid-template-columns: 1fr calc(4.2 * var(--s)) calc(4.2 * var(--s)) calc(4.2 * var(--s)); border-bottom: .5px solid var(--border); }
+.mx-row:last-child { border-bottom: none; }
+.mx-head { background: var(--blue-lightest); }
+.mx-label { padding: calc(0.4 * var(--s)) calc(0.75 * var(--s)); font-size: var(--t-xs); font-weight: 500; color: var(--text-m); }
+.mx-col { padding: calc(0.4 * var(--s)) 0; font-size: var(--t-xs); font-weight: 500; color: var(--text); text-align: center; }
+.mx-task { padding: calc(0.37 * var(--s)) calc(0.75 * var(--s)); font-size: calc(0.58 * var(--s)); color: var(--text-s); display: flex; align-items: center; }
+.mx-cell { padding: calc(0.37 * var(--s)) 0; text-align: center; font-size: var(--t-md); display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- Slide 1: Cover -->
+<div class="slide active" id="s1">
+  <svg id="cover-mosaic" class="cover-mosaic" viewBox="0 0 392 392" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div style="max-width:calc(27 * var(--s));position:relative;z-index:1;">
+    <div class="c-eyebrow">SOUSHIN LAB — MARKETING STRATEGY 2026</div>
+    <div class="c-title">マーケティング<br><em>全体戦略</em>と<br>直近の優先施策</div>
+    <div class="c-bar"></div>
+    <div class="c-sub">現状診断 · 全体像 · 優先ロードマップ</div>
+    <div class="c-meta">
+      <div class="c-meta-item"><b>株式会社創新ラボ</b>内部資料</div>
+      <div class="c-meta-item"><b>2026.07.02</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 2: アプローチ -->
+<div class="slide" id="s-ap">
+  <div class="eyebrow">DIRECTION</div>
+  <h1>プロジェクトの方向性</h1>
+  <div class="sub">マーケ全体を設計しながら、受注に近い場所から順に固めていく</div>
+  <div class="g2" style="align-items:start;gap:var(--sp-7);">
+
+    <div class="af-wrap">
+      <div class="af-row">
+        <div class="af-stage af-dim" style="width:100%">潜在認知</div>
+      </div>
+      <div class="af-row">
+        <div class="af-stage af-dim" style="width:84%">興味・関心</div>
+      </div>
+      <div class="af-row">
+        <div class="af-stage" style="width:68%;background:color-mix(in srgb,#008CEF 14%,white);color:var(--blue-dark);">比較・検討</div>
+      </div>
+      <div class="af-row">
+        <div class="af-stage" style="width:54%;background:color-mix(in srgb,#008CEF 32%,white);color:var(--blue-dark);">問い合わせ</div>
+      </div>
+      <div class="af-row">
+        <div class="af-stage" style="width:40%;background:color-mix(in srgb,#008CEF 62%,white);color:white;">商談</div>
+      </div>
+      <div class="af-row">
+        <div class="af-stage af-top" style="width:26%">受注</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card card-b" style="margin-bottom:var(--sp-3);">
+        <div style="font-size:var(--t-sm);color:var(--blue-dark);font-weight:500;margin-bottom:var(--sp-2);">このチームの役割</div>
+        <div class="item">創新ラボのマーケティング全体を担当する</div>
+        <div class="item">最初は受注に近い部分から順に着手する</div>
+        <div class="item">インフラが整い次第、上のファネルへ順に展開する</div>
+      </div>
+      <div class="card">
+        <div style="font-size:var(--t-sm);font-weight:500;color:var(--text);margin-bottom:var(--sp-2);">なぜ上からではないか</div>
+        <div class="item">商談力はすでに高い。不足しているのは主にリード</div>
+        <div class="item">潜在層へのアプローチは時間・コストがかかりすぎる</div>
+        <div class="item">KASOUとELGで紹介経路を先に作るほうが確実で速い</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Slide 2: 現状診断 -->
+<div class="slide" id="s2">
+  <div class="eyebrow">CURRENT SITUATION</div>
+  <h1>現状診断</h1>
+  <div class="sub">唯一のボトルネックを特定する</div>
+  <div class="g2">
+    <div>
+      <div class="ctitle"><div class="sq"></div>強み — 問題なし</div>
+      <div class="card card-b" style="margin-bottom:calc(0.55 * var(--s));">
+        <div style="font-size:var(--t-sm);color:var(--blue-dark);font-weight:500;margin-bottom:var(--sp-2);">商談・受注</div>
+        <div class="item">コンペでもほぼ取れる受注率</div>
+        <div class="item">サービス品質は証明済み</div>
+        <div class="item">商談後のクロージング力が高い</div>
+      </div>
+      <div class="card">
+        <div style="font-size:var(--t-sm);font-weight:500;color:var(--text);margin-bottom:var(--sp-2);">保有リソース</div>
+        <div class="item">開発実績 100件以上</div>
+        <div class="item">KASOU — 独自メディア保有</div>
+
+      </div>
+    </div>
+    <div>
+      <div class="ctitle">
+        <div class="sq-outline"></div>
+        ボトルネック — 課題
+      </div>
+      <div class="bottleneck">
+        <div class="bn-num">リードゼロ</div>
+        <div class="bn-desc">自力でリードを生む仕組みがない<br>アイミツ等の比較メディアに依存している</div>
+      </div>
+      <div class="card" style="margin-bottom:var(--sp-2);">
+        <div class="item" style="color:var(--blue-900);">コーポレートサイトに実績・事例がない</div>
+        <div class="item" style="color:var(--blue-900);">ELGインフラ（報酬・フロー・資料）が未整備</div>
+      </div>
+      <div class="note-box">
+        ※ 商談以降は強い。問題は商談前のリード獲得フェーズのみ。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: 全体戦略 -->
+<div class="slide" id="s3">
+  <div class="eyebrow">OVERALL STRATEGY</div>
+  <h1>全体戦略の構造</h1>
+  <div class="sub">2つのファネルで設計する</div>
+  <div class="g2">
+    <div>
+      <div class="f-label">
+        <div class="f-badge">FUNNEL 01</div>
+        <div class="f-name">クライアント獲得ファネル（インバウンド）</div>
+      </div>
+      <div class="funnel">
+        <div class="f-num">01</div>
+        <div><div class="f-title">コンテンツ・SEOで発注企業に接触</div><div class="f-desc">ブログ・事例ページで検索からの流入を獲得</div></div>
+      </div>
+      <div class="f-arrow">↓</div>
+      <div class="funnel">
+        <div class="f-num">02</div>
+        <div><div class="f-title">サイト・実績で信頼構築</div><div class="f-desc">事例・技術・実績数でFirst Contact前に選ばれる</div></div>
+      </div>
+      <div class="f-arrow">↓</div>
+      <div class="funnel" style="background:var(--bg);">
+        <div class="f-num">03</div>
+        <div style="flex:1;"><div class="f-title">問い合わせ → 商談 → 受注</div><div class="f-desc">既存の高い商談力でクロージング</div></div>
+        <span class="tag t-gray">インバウンド</span>
+      </div>
+    </div>
+    <div>
+      <div class="f-label">
+        <div class="f-badge" style="background:#1a1a1a;">FUNNEL 02</div>
+        <div class="f-name">パートナー獲得ファネル（ELG）</div>
+      </div>
+      <div class="funnel">
+        <div class="f-num" style="color:#1a1a1a;">01</div>
+        <div><div class="f-title">KASOUでデザイナーと接触</div><div class="f-desc">独自メディアでフロントエンド・デザイナーを集客</div></div>
+      </div>
+      <div class="f-arrow" style="color:#999;">↓</div>
+      <div class="funnel">
+        <div class="f-num" style="color:#1a1a1a;">02</div>
+        <div><div class="f-title">パートナーとしてオンボーディング</div><div class="f-desc">報酬・フロー・営業資料を整備してELG化</div></div>
+      </div>
+      <div class="f-arrow" style="color:#999;">↓</div>
+      <div class="funnel" style="background:var(--blue-lighter);border-color:color-mix(in srgb,#008CEF 25%,white);">
+        <div class="f-num" style="color:#1a1a1a;">03</div>
+        <div style="flex:1;"><div class="f-title">パートナーが案件を紹介</div><div class="f-desc">デザイナーのクライアントを開発案件として受注</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: ロードマップ -->
+<div class="slide" id="s4">
+  <div class="eyebrow">ROADMAP</div>
+  <h1>優先ロードマップ</h1>
+  <div class="sub">受注に近い施策から着手する</div>
+  <div class="phases">
+    <div class="phase" style="background:var(--blue-lightest);">
+      <div class="ph-time">直近</div>
+      <div class="ph-name">サイト基盤整備</div>
+      <span class="tag t-red tag-mb">今すぐ</span>
+      <div class="ph-task on">実績件数をサイトに追加</div>
+    </div>
+    <div class="phase" style="background:color-mix(in srgb,#008CEF 6%,white);">
+      <div class="ph-time">2〜4週間</div>
+      <div class="ph-name">ELGインフラ整備</div>
+      <span class="tag t-amber tag-mb">先決め</span>
+      <div class="ph-task on">紹介報酬・条件を決める</div>
+      <div class="ph-task on">受注フローを明文化</div>
+      <div class="ph-task on">パートナー向け1枚資料</div>
+      <div class="ph-task on">営業素材（事例）整備</div>
+    </div>
+    <div class="phase">
+      <div class="ph-time">1〜2ヶ月</div>
+      <div class="ph-name">信頼コンテンツ整備</div>
+      <span class="tag t-blue tag-mb">インフラと並走</span>
+      <div class="ph-task on">事例ページ 10〜15件</div>
+      <div class="ph-task">KASOUコンテンツ強化</div>
+      <div class="ph-task">サイトCTA追加</div>
+    </div>
+    <div class="phase">
+      <div class="ph-time">2〜3ヶ月</div>
+      <div class="ph-name">ELG Phase 0</div>
+      <span class="tag t-blue tag-mb">インフラ後に着手</span>
+      <div class="ph-task">KASOU掲載者へDM</div>
+      <div class="ph-task">Slackオンボーディング</div>
+      <div class="ph-task">登録ページ公開</div>
+    </div>
+    <div class="phase">
+      <div class="ph-time">3〜6ヶ月</div>
+      <div class="ph-name">インバウンド拡大</div>
+      <span class="tag t-green tag-mb">ELG稼働後</span>
+      <div class="ph-task">コーポレートブログ</div>
+      <div class="ph-task">比較メディア強化</div>
+      <div class="ph-task">メール収集機能</div>
+    </div>
+  </div>
+  <div class="warn">
+    <div class="sq" style="flex-shrink:0;"></div>
+    ELGインフラ（報酬条件・フロー・資料）が整うまでパートナーへのアプローチは開始できない
+  </div>
+</div>
+
+<!-- Slide 5: ゴール -->
+<div class="slide" id="s5">
+  <div class="eyebrow">GOALS & KPIs</div>
+  <h1>3ヶ月後のゴール</h1>
+  <div class="sub">何を達成したら成功か</div>
+  <div class="g2">
+
+    <div>
+      <div class="ctitle"><div class="sq"></div>インバウンド</div>
+      <div class="card card-b" style="margin-bottom:var(--sp-3);">
+        <div style="font-size:var(--t-sm);color:var(--blue-dark);font-weight:500;margin-bottom:var(--sp-2);">コンテンツ・サイト</div>
+        <div class="item">事例ページ 10〜15件 掲載</div>
+        <div class="item">自力での問い合わせ 月2〜3件</div>
+        <div class="item">比較サイト依存から脱却できている</div>
+      </div>
+      <div class="note-box">
+        現状ゼロからの脱却が最初のマイルストーン。<br>数値は達成後に上方修正する。
+      </div>
+    </div>
+
+    <div>
+      <div class="ctitle"><div class="sq"></div>ELG</div>
+      <div class="card card-b" style="margin-bottom:var(--sp-3);">
+        <div style="font-size:var(--t-sm);color:var(--blue-dark);font-weight:500;margin-bottom:var(--sp-2);">パートナー獲得</div>
+        <div class="item">ELGインフラ（報酬・フロー・資料）完成</div>
+        <div class="item">パートナー登録 5人</div>
+        <div class="item">パートナー経由の案件紹介 1〜2件</div>
+      </div>
+      <div class="note-box">
+        インフラ整備が先決。登録5人は3ヶ月目の最低ライン。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Slide 6: メンバー -->
+<div class="slide" id="s6">
+  <div class="s6-left">
+    <div class="s6-label">TEAM</div>
+    <div class="s6-title-v">メンバーと担当</div>
+    <div class="s6-desc-v">3名体制+社内エンジニア・営業をポイントアサイン</div>
+  </div>
+  <div class="s6-right">
+
+  <div class="member-grid">
+    <!-- 田嶋 -->
+    <div class="member-card">
+      <div class="member-photo"><img src="./member-tajima.png" alt="田嶋 浩明"></div>
+      <div class="member-body">
+        <div class="member-role">DIRECTOR</div>
+        <div class="member-name">田嶋 浩明</div>
+        <div class="member-dept">全体指揮 / 主要デザイン</div>
+        <div class="item">戦略・優先順位の決定</div>
+        <div class="item">ELGインフラの意思決定</div>
+        <div class="item">主要デザインレビュー</div>
+        <div class="item">社内リソースのコーディネート</div>
+      </div>
+    </div>
+    <!-- 小林 -->
+    <div class="member-card">
+      <div class="member-photo"><img src="./member-kobayashi.png" alt="小林 祐也"></div>
+      <div class="member-body">
+        <div class="member-role">CREATIVE</div>
+        <div class="member-name">小林 祐也</div>
+        <div class="member-dept">デザイン / クリエイティブ</div>
+        <div class="item">パートナー向け資料デザイン</div>
+        <div class="item">事例ページのビジュアル制作</div>
+        <div class="item">KASOUコンテンツ制作</div>
+        <div class="item">ブランドアセット整備</div>
+      </div>
+    </div>
+    <!-- 飯塚 -->
+    <div class="member-card">
+      <div class="member-photo"><img src="./member-iizuka.png" alt="飯塚 陵生"></div>
+      <div class="member-body">
+        <div class="member-role">OPERATIONS</div>
+        <div class="member-name">飯塚 陵生</div>
+        <div class="member-dept">オペレーション / アウトリーチ</div>
+        <div class="item">ELGアウトリーチ実務（DM・リスト管理）</div>
+        <div class="item">事例ヒアリング・情報整理</div>
+        <div class="item">パートナーフォロー・進捗管理</div>
+      </div>
+    </div>
+  </div>
+
+
+  </div><!-- .s6-right -->
+
+  <div class="shacho-trigger" style="left:0;right:auto;">
+    <img src="./member-shacho.png" alt="" class="shacho-float">
+  </div>
+</div>
+
+</div>
+
+<!-- Nav -->
+<div class="nav" id="nav"></div>
+<div class="counter" id="ctr">1 / 7</div>
+
+<script>
+
+const slides = document.querySelectorAll('.slide');
+const nav = document.getElementById('nav');
+const ctr = document.getElementById('ctr');
+let cur = 0;
+
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' on' : '');
+  d.onclick = () => go(i);
+  nav.appendChild(d);
+});
+
+function go(n) {
+  slides[cur].classList.remove('active');
+  nav.children[cur].classList.remove('on');
+  cur = n;
+  slides[cur].classList.add('active');
+  nav.children[cur].classList.add('on');
+  ctr.textContent = (cur + 1) + ' / ' + slides.length;
+  localStorage.setItem('slide', cur);
+}
+
+// カバースライド モザイク生成
+(function() {
+  const el = document.getElementById('cover-mosaic');
+  if (!el) return;
+  const ns = 'http://www.w3.org/2000/svg';
+
+  // 0=背景のみ(スキップ), 1=極暗, 2=暗, 3=中, 4=明, 5=鮮 → M字型
+  const pattern = [
+    [4, 0, 0, 0, 0, 0, 0, 0, 4],
+    [5, 4, 0, 0, 0, 0, 0, 4, 5],
+    [5, 5, 4, 0, 0, 0, 4, 5, 5],
+    [5, 5, 0, 4, 0, 4, 0, 5, 5],
+    [5, 5, 0, 0, 5, 0, 0, 5, 5],
+    [5, 5, 0, 0, 0, 0, 0, 5, 5],
+    [5, 5, 0, 0, 0, 0, 0, 5, 5],
+    [5, 5, 0, 0, 0, 0, 0, 5, 5],
+    [4, 5, 0, 0, 0, 0, 0, 5, 4],
+  ];
+
+  const CELL = 40, GAP = 4, STEP = 44;
+  const fills = [
+    null,
+    '#cce4f9',   // 1 極薄ブルー
+    '#7ab8f0',   // 2 薄ブルー
+    '#2e80d8',   // 3 ミディアムブルー
+    '#0060c0',   // 4 ダークブルー
+    '#008CEF',   // 5 ブランドブルー
+  ];
+
+  pattern.forEach((row, r) => {
+    row.forEach((lv, c) => {
+      if (!lv) return;
+      const rect = document.createElementNS(ns, 'rect');
+      rect.setAttribute('x', c * STEP);
+      rect.setAttribute('y', r * STEP);
+      rect.setAttribute('width', CELL);
+      rect.setAttribute('height', CELL);
+      rect.setAttribute('fill', fills[lv]);
+      el.appendChild(rect);
+    });
+  });
+})();
+
+// リロード後にページを復元
+const saved = parseInt(localStorage.getItem('slide') || '0');
+if (saved > 0 && saved < slides.length) go(saved);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    e.preventDefault();
+    if (cur < slides.length - 1) go(cur + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (cur > 0) go(cur - 1);
+  }
+});
+</script>
+</body>
+</html>
