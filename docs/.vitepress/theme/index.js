@@ -5,6 +5,7 @@ import LineChart from './LineChart.vue'
 import './custom.css'
 
 function injectDividers() {
+  if (typeof document === "undefined") return
   nextTick(() => {
     document.querySelectorAll('.sidebar-divider').forEach(el => el.remove())
     const groups = document.querySelectorAll('.VPSidebar .group')
