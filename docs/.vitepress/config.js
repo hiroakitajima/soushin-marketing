@@ -1,4 +1,19 @@
 export default {
+  vite: {
+    server: {
+      headers: {
+        'Content-Security-Policy': "script-src 'self' 'unsafe-eval' 'unsafe-inline'; connect-src 'self' https://*.supabase.co wss://*.supabase.co"
+      },
+      proxy: {
+        '/github-api': {
+          target: 'https://api.github.com',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/github-api/, ''),
+        }
+      }
+    }
+  },
+
   title: '創新ラボ マーケティング',
   description: 'マーケティング戦略ダッシュボード',
   lang: 'ja-JP',
@@ -21,7 +36,6 @@ export default {
       },
       {
         text: '✅ 進捗管理',
-        link: '/todo',
         collapsed: true,
         items: [
           { text: 'TODO', link: '/todo' },
@@ -30,7 +44,6 @@ export default {
       },
       {
         text: '📈 分析',
-        link: '/analytics',
         collapsed: true,
         items: [
           { text: '分析', link: '/analytics' },
@@ -41,8 +54,8 @@ export default {
         link: '/meetings/2026-07-02',
         collapsed: true,
         items: [
+          { text: '2026-07-08', link: '/meetings/2026-07-08' },
           { text: '2026-07-02', link: '/meetings/2026-07-02' },
-          { text: '2026-06-25', link: '/meetings/2026-06-25' },
         ]
       },
       {
@@ -72,6 +85,10 @@ export default {
         ]
       },
     ],
+
+    outline: {
+      level: [2, 3],
+    },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/' }

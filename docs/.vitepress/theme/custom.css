@@ -39,3 +39,9 @@
 .VPSidebarItem.level-0 .items {
   padding-left: 12px !important;
 }
+
+/* リンクなし（非アクティブ）のセクションタイトル */
+.VPSidebarItem.level-0:not(.is-link) .item > h2.text {
+  opacity: 0.35 !important;
+  cursor: default !important;
+}
