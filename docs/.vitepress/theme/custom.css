@@ -1,3 +1,9 @@
+/* 記事本文の画像に共通ボーダー */
+.vp-doc img {
+  border: 0.5px solid #1B1D37;
+  border-radius: 4px;
+}
+
 /* サイドバーdivider */
 .sidebar-divider {
   border: none;
