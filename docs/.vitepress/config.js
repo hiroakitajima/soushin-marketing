@@ -54,6 +54,8 @@ export default {
         link: '/meetings/2026-07-02',
         collapsed: true,
         items: [
+          { text: '2026-08-27', link: '/meetings/2026-08-27' },
+          { text: '2026-08-19', link: '/meetings/2026-08-19' },
           { text: '2026-08-13', link: '/meetings/2026-08-13' },
           { text: '2026-08-05', link: '/meetings/2026-08-05' },
           { text: '2026-07-30', link: '/meetings/2026-07-30' },
